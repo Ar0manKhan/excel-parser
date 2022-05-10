@@ -21,9 +21,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 		// getting all data from excel sheet
 		const fileData = await getSheetData(file.path);
 		await uploadData(fileData);
-		res.status(200);
+		res.status(200).send('Upload successful');
 	} catch (e) {
-		res.status(500);
+		res.status(500).send('Upload unsuccessful');
 	}
 })
 
