@@ -13,12 +13,15 @@ const handleSelection = () => {
 	submitBtn.classList.remove('d-none');
 }
 
-const handleResponse = response => {
-	console.log(response);
-}
-
-const handleError = err => {
-	console.error(err);
+const handleResponse = success => {
+	const feedbackElement = document.getElementById('request-feedback');
+	document
+		.getElementById(success ? 'success-message' : 'failure-message')
+		.classList.remove('d-none');
+	feedbackElement.classList.remove('d-none');
+	feedbackElement.classList.add('d-flex');
+	form.classList.remove('d-flex');
+	form.classList.add('d-none');
 }
 
 const uploadFile = async (file) => {
@@ -27,9 +30,9 @@ const uploadFile = async (file) => {
 
 	try {
 		let response = await fetch('/upload', { method: 'POST', body: formData });
-		handleResponse(response);
+		handleResponse(response.status === 200);
 	} catch (e) {
-		handleError(e);
+		handleResponse(false);
 	}
 
 }
