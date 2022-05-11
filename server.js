@@ -1,24 +1,28 @@
 const express = require('express');
-const multer = require('multer');
 const async = require('async');
+const fielUpload = require('express-fileupload');
 require('dotenv').config();
 const { getSheetData, uploadPersonData } = require('./utils');
 
 const app = express();
 app.use(express.static(__dirname + '/public'));
-const upload = multer({ dest: './public/sheets/' });	// configuring multer
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
 })
 
-app.post('/upload', upload.single('file'), async (req, res) => {
+const fileuploadConfig = {
+	useTempFiles: true, tempFileDir: './public/tmp', createParentPath: true
+}
+
+app.post('/upload', fielUpload(fileuploadConfig), async (req, res) => {
 	try {
-		const file = req.file;	// getting excel sheet to process data
-		const fileData = await getSheetData(file.path);	// extracting excel data
+		const file = req.files.file;	// getting excel sheet to process data
+		const fileData = await getSheetData(file.tempFilePath);	// extracting excel data
 		await async.eachSeries(fileData, uploadPersonData);	//uploading data
 		res.status(200).send('Upload successful');
 	} catch (e) {
+		console.log(e);
 		res.status(500).send('Upload unsuccessful');
 	}
 })

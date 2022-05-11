@@ -1,6 +1,5 @@
 const excel = require('read-excel-file/node')
 const mongoose = require('mongoose');
-const fs = require('fs');
 
 // Connecting to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -37,21 +36,13 @@ const excelJsonMap = {
 	"Current Designation": 'currentDesignation'
 }
 
-const removeFile = filepath => {
-	fs.unlink(filepath, err => {
-		if (err)
-			console.error(err);
-	})
-}
-
 /**
  * Convert excel file to array of json
  * @param {String} file Path of the excel sheet
  * @returns json format of input excel sheet
  */
 const getSheetData = async (file) => {
-	const excelData = await excel(fs.createReadStream(file), { map: excelJsonMap });
-	removeFile(file);
+	const excelData = await excel(file, { map: excelJsonMap });
 	return excelData.rows;
 }
 
