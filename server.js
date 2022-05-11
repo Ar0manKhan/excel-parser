@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const multer = require('multer');
 const async = require('async');
 require('dotenv').config();
@@ -7,10 +6,7 @@ const { getSheetData, uploadPersonData } = require('./utils');
 
 const app = express();
 app.use(express.static(__dirname + '/public'));
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-// Setting up multer
-const upload = multer({ dest: './public/sheets/' });
+const upload = multer({ dest: './public/sheets/' });	// configuring multer
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/views/index.html');
