@@ -1,7 +1,6 @@
 const excel = require('read-excel-file/node')
 const mongoose = require('mongoose');
 const fs = require('fs');
-const async = require('async');
 const { create } = require('domain');
 const { createCipheriv } = require('crypto');
 
@@ -85,15 +84,5 @@ const uploadPersonData = async (data) => {
 	}
 }
 
-/**
- * Adds all the person to database
- * @param {*} data List of persons to add in the database
- */
-const uploadData = async (data) => {
-	await async.eachSeries(data, async (item, callback) => {
-		await uploadPersonData(item);
-	})
-}
-
 exports.getSheetData = getSheetData;
-exports.uploadData = uploadData;
+exports.uploadPersonData = uploadPersonData;
