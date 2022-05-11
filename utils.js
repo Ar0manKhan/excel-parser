@@ -1,8 +1,6 @@
 const excel = require('read-excel-file/node')
 const mongoose = require('mongoose');
 const fs = require('fs');
-const { create } = require('domain');
-const { createCipheriv } = require('crypto');
 
 // Connecting to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
