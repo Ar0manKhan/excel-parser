@@ -1,6 +1,6 @@
 const express = require('express');
 const async = require('async');
-const fielUpload = require('express-fileupload');
+const fileUpload = require('express-fileupload');
 require('dotenv').config();
 const { getSheetData, uploadPersonData } = require('./utils');
 
@@ -15,7 +15,7 @@ const fileuploadConfig = {
 	useTempFiles: true, tempFileDir: './public/tmp', createParentPath: true
 }
 
-app.post('/upload', fielUpload(fileuploadConfig), async (req, res) => {
+app.post('/upload', fileUpload(fileuploadConfig), async (req, res) => {
 	try {
 		const file = req.files.file;	// getting excel sheet to process data
 		const fileData = await getSheetData(file.tempFilePath);	// extracting excel data
