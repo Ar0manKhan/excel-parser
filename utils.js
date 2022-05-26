@@ -52,11 +52,7 @@ const getSheetData = async (file) => {
  */
 const createPerson = async (data) => {
 	const newPerson = new Person(data);
-	try {
-		await newPerson.save(data);
-	} catch (e) {
-		console.error(e);
-	}
+	await newPerson.save(data);
 }
 
 /**
@@ -64,13 +60,9 @@ const createPerson = async (data) => {
  * @param {Person} data The data which is to be uploaded
  */
 const uploadPersonData = async (data) => {
-	try {
-		const query = await Person.findOne({ email: data.email }).exec();
-		if (query === null)
-			await createPerson(data);
-	} catch (e) {
-		console.error(e);
-	}
+	const query = await Person.findOne({ email: data.email }).exec();
+	if (query === null)
+		await createPerson(data);
 }
 
 exports.getSheetData = getSheetData;
